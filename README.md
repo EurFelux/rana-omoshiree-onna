@@ -1,2 +1,3 @@
-# r-na-omoshiree-onna
-面白え女
+# rana-omoshiree-onna
+
+Rána: 面白え女
