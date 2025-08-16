@@ -95,7 +95,7 @@ export default function SmartImage({ src, alt, onClick, containerStyle, ...restP
                         left: 0,
                         cursor: cursor, // 🔴 动态光标
                         pointerEvents: 'auto',
-                        opacity: 1
+                        opacity: 0
                     }}
                 />
             )}
