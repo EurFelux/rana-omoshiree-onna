@@ -7,6 +7,11 @@ export default function SmartImage({ src, alt, onClick, containerStyle, ...restP
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
     const [cursor, setCursor] = useState<'pointer' | 'auto'>('auto'); // 动态光标
+    const [isLoaded, setIsLoaded] = useState<boolean>(false)
+
+    const onLoad = () => {
+        setIsLoaded(true)
+    }
 
     const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
@@ -64,7 +69,7 @@ export default function SmartImage({ src, alt, onClick, containerStyle, ...restP
         if (ctx) {
             ctx.drawImage(img, 0, 0);
         }
-    }, [])
+    }, [isLoaded])
 
     return (
         <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', ...containerStyle }}>
@@ -73,6 +78,7 @@ export default function SmartImage({ src, alt, onClick, containerStyle, ...restP
                 ref={imgRef}
                 src={src}
                 alt={alt}
+                onLoad={onLoad}
                 {...restProps}
             />
 
