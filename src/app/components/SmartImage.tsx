@@ -1,9 +1,9 @@
 'use client';
 
 import Image, { ImageProps } from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { CSSProperties, useLayoutEffect, useRef, useState } from 'react';
 
-export default function SmartImage({ src, alt, onClick, ...restProps }: ImageProps) {
+export default function SmartImage({ src, alt, onClick, containerStyle, ...restProps }: ImageProps & { containerStyle?: CSSProperties }) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
     const [cursor, setCursor] = useState<'pointer' | 'auto'>('auto'); // 动态光标
@@ -48,13 +48,17 @@ export default function SmartImage({ src, alt, onClick, ...restProps }: ImagePro
         setCursor('auto');
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const canvas = canvasRef.current;
         const img = imgRef.current;
         if (!canvas || !img) return;
 
         canvas.width = img.naturalWidth;
         canvas.height = img.naturalHeight;
+        canvas.style.width = `${img.width}px`
+        canvas.style.height = `${img.width}px`
+        console.log({ width: { natural: img.naturalWidth, client: img.clientWidth, offset: img.offsetWidth, width: img.width } })
+        console.log({ height: { natural: img.naturalHeight, client: img.clientHeight, offset: img.offsetHeight, width: img.height } })
 
         const ctx = canvas.getContext('2d');
         if (ctx) {
@@ -63,7 +67,7 @@ export default function SmartImage({ src, alt, onClick, ...restProps }: ImagePro
     }, [])
 
     return (
-        <div style={{ position: 'relative', display: 'inline-block' }}>
+        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', ...containerStyle }}>
             {/* 实际显示的图片 */}
             <Image
                 ref={imgRef}
@@ -83,10 +87,9 @@ export default function SmartImage({ src, alt, onClick, ...restProps }: ImagePro
                         position: 'absolute',
                         top: 0,
                         left: 0,
-                        width: '100%',
-                        height: '100%',
                         cursor: cursor, // 🔴 动态光标
                         pointerEvents: 'auto',
+                        opacity: 1
                     }}
                 />
             )}

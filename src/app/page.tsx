@@ -12,7 +12,7 @@ export default function Home() {
 }
 
 function ContentContainer({ children }: { children: ReactNode }) {
-  return <div className="bg-[url('/RiNG.png')] bg-cover bg-center w-screen h-screen">
+  return <div className="bg-[url('/RiNG.png')] bg-cover bg-center w-screen h-screen flex flex-col justify-end">
     {children}
   </div>
 }
